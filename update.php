@@ -10,25 +10,51 @@
   <body>
     <div class="container">
 
-<?php
-$videoId=$_GET['videoId'];
-$raw=file_get_contents('video.json');
-$records=json_decode($raw,true);
-$title="";
-foreach($records as $record){
-  if ($record['id']==$videoId){
-    $title=$record['title'];
-  }
-}
-?>
+    <?php
+        $idCanzone=$_GET['idCanzone'];
+        $rawCanzoni=file_get_contents('canzoni.json');
+        $recordsCanzoni=json_decode($rawCanzoni,true);
+
+        $idBand=$_GET['idBand'];
+        $rawBand=file_get_contents('band.json');
+        $recordsBand=json_decode($rawBand,true);
+
+        $idGenere=$_GET['idGenere'];
+        $rawGeneri=file_get_contents('genere.json');
+        $recordsGeneri=json_decode($rawGeneri,true);
+
+        $title="";
+        $nomeBand="";
+        $nomeGenere="";
+
+        foreach($recordsCanzoni as $record){
+          if($record['idCanzone']==$idCanzone){
+              $title=$record['titolo'];
+              foreach($recordsBand as $record2){
+                  if ($record2['idBand']==$idBand){
+                      $nomeBand=$record2['nomeBand'];
+                  }
+              }
+              foreach($recordsGeneri as $record2){
+                  if ($record2['idGenere']==$idGenere){
+                      $nomeGenere=$record2['nomeGenere'];
+                  }
+              }
+          }
+        }
+    ?>
 
 
 <form action="update-save.php">
 
-  <input type="hidden" id="videoId" name=videoId value='<?php echo $videoId; ?>'>
+  <input type="hidden" id="idCanzone" name=idCanzone value='<?php echo $idCanzone; ?>'>
   <label for="title">Titolo</label>
-    <input type="text" id="title" name=title value="<?php echo $title; ?>">
-<button>Salva</button>
+    <input type="text" id="title" name=title value="<?php echo $title; ?>" required><br>
+  <label for="band">Nome Band</label>
+    <input type="text" id="band" name=band value="<?php echo $nomeBand; ?>" required><br>
+    <label for="genere">Nome Genere</label>
+    <input type="text" id="genere" name=genere value="<?php echo $nomeGenere; ?>" required><br>
+  <input type="submit" value="Salva"/>
 </form>
 
 
