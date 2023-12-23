@@ -11,14 +11,14 @@
     $recordsCanzoni=json_decode($rawCanzoni,true);
 
     $rawBand=file_get_contents('band.json');
-    $recordsBand=json_decode($rawBand,true);
+    $recordsBand=json_decode($rawBand, true);
 
     $rawGenere=file_get_contents('genere.json');
     $recordsGeneri=json_decode($rawGenere,true);
 
-    foreach($recordsCanzoni as $record){
-        if ($record['idCanzone']!=$idCanzone){
-            $record['titolo'] = $newTitle;
+    foreach($recordsCanzoni as $canzone){
+        if ($canzone['idCanzone']==$idCanzone){
+            $canzone['titolo'] = $newTitle;
 
             /*
               controllo se è cambiato il nome della band
@@ -26,25 +26,24 @@
               se c'è già prendo l'id
               se non c'è do alla nuova band un nuovo id
             */
-            foreach($recordsBand as $record2){
+
+            foreach($recordsBand as $band){
                 //se il nome è diverso ma l'id è lo stesso allora modifico
-                if ($record2['nomeBand']!=$newBand && $record2["idBand"]==$record["idBand"]){
-                    do{
-                        $randomIdBand = rand(0, 9999999);
-                    }while(existBand($randomIdBand)==true);
-
-                    $record["idBand"] = $randomIdBand; //modifico il nuovo id al file delle canzoni
-
-                    //aggiunta della nuova band al file con il nuovo id e il nuovo nome
-                    $extraBand=array(
-                        'idBand' => $randomIdBand,
-                        'nomeBand' => $newBand
-                    );
-                    $recordsBand[]=$extraBand;
-                    $rawBand=json_encode($recordsBand);
-                    file_put_contents('band.json', $recordsBand);
-                }elseif($record2["nomeBand"]== $newBand){
-                    $record["idBand"] = $record2["idBand"];
+                if($band["idBand"] == $canzone["idBand"]){
+                    if($band["nomeBand"] != $newBand){
+                        $idB = getBand($newBand, $recordsBand);
+                        if($idB == ""){
+                            do{                                     //creazione di un nuovo id  tramite numero random
+                                $randomIdBand = rand();
+                            }while(existBand($randomIdBand)==true); // mi controlla che l'id non esista gia'
+                            $canzone["idBand"] = $idB; //modifico il nuovo id al file delle canzoni
+                            echo $canzone["idBand"];
+                            putBandNewData($randomIdBand, $newBand, $recordsBand);
+                        }else{
+                            $canzone["idBand"] = $idB; //modifico il nuovo id al file delle canzoni
+                            putBandNewData($idB, $newBand, $recordsBand);
+                        }
+                    }
                 }
             }
 
@@ -54,25 +53,22 @@
               se c'è già prendo l'id
               se non c'è do al nuovo genere un nuovo id
             */
-            foreach($recordsGeneri as $record2){
+            foreach($recordsGeneri as $genere){
                 //se il nome è diverso ma l'id è lo stesso allora modifico
-                if ($record2['nomeGenere']!=$newGenere && $record2["idGenere"]==$record["idGenere"]){
-                    do{
-                        $randomIdGenere = rand(0, 9999999);
-                    }while(existGenere($randomIdGenere)==true);
-
-                    $record["idGenere"] = $randomIdGenere; //modifico il nuovo id al file delle canzoni
-
-                    //aggiunta del nuovo genere al file con il nuovo id e il nuovo nome
-                    $extraGenere=array(
-                        'idGenere' => '<?php $randomIdGenere',
-                        'nomeGenere' =>'<?php $newGenere'
-                    );
-                    $recordsGeneri[]=$extraGenere;
-                    $rawGenere=json_encode($recordsGeneri);
-                    file_put_contents('genere.json', $recordsGeneri);
-                }elseif($record2["nomeGenere"] == $newGenere){
-                    $record["idGenere"] = $record2["idGenere"];
+                if($genere["idGenere"]==$canzone["idGenere"]){
+                    if($genere["nomeGenere"] != $newGenere){
+                        $idGen = getGenere($newGenere, $recordsGeneri);
+                        if($idGen == ""){
+                            do{                                     //creazione di un nuovo id  tramite numero random
+                                $randomIdGenere = rand();
+                            }while(existGenere($randomIdGenere)==true); // mi controlla che l'id non esista gia'
+                            $canzone["idGenere"] = $idGen; //modifico il nuovo id al file delle canzoni
+                            putGenereNewData($randomIdGenere, $newGenere, $recordsGeneri);
+                        }else{
+                            $canzone["idGenere"] = $idGen; //modifico il nuovo id al file delle canzoni
+                            putGenereNewData($idGen, $newGenere, $recordsGeneri);
+                        }
+                    }
                 }
             }
 
@@ -82,8 +78,10 @@
     $rawCanzoni=json_encode($recordsCanzoni);
     file_put_contents('canzoni.json', $rawCanzoni);
 
-    //header('Location: index.php');
+    header('Location: index.php');
 ?>
+
+<!-- funzioni: -->
 <?php
 function existBand($band){
     $raw=file_get_contents('band.json');
@@ -106,3 +104,47 @@ function existGenere($genere){
     }
     return false;
 }
+
+function getBand($band, $recordsBand){
+    $id = "";
+    foreach($recordsBand as $record){
+        if($band == $record["nomeBand"]){
+            $id = $record["idBand"];
+        }
+    }
+    return $id;
+}
+
+function getGenere($genere, $recordsGenere){
+    $id = "";
+    foreach($recordsGenere as $record){
+        if($genere == $record["nomeGenere"]){
+            $id = $record["idGenere"];
+        }
+    }
+    return $id;
+}
+
+function putBandNewData($id, $artist, $recordsBand){
+    //aggiunta della nuova band al file con il nuovo id e il nuovo nome
+    $extraBand=array(
+        'idBand' => "<?php $id",
+        'nomeBand' => $artist
+    );
+    $recordsBand[]=$extraBand;
+    $rawBand=json_encode($recordsBand);
+    file_put_contents('band.json', $rawBand);
+}
+
+function putGenereNewData($id, $genere, $recordsGeneri){
+    //aggiunta della nuova band al file con il nuovo id e il nuovo nome
+    $extraBand=array(
+        'idGenere' => "<?php $id",
+        'nomeGenere' => $genere
+    );
+    $recordsGeneri[]=$extraBand;
+    $rawGenere=json_encode($recordsGeneri);
+    file_put_contents('band.json', $rawGenere);
+}
+
+?>
