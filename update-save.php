@@ -35,9 +35,12 @@
                             do{                                     //creazione di un nuovo id  tramite numero random
                                 $randomIdBand = rand();
                             }while(existBand($randomIdBand)==true); // mi controlla che l'id non esista gia'
+
+                            //sta cazzo di assegnazione non funziona e non so perché
                             $canzone["idBand"] = $idB; //modifico il nuovo id al file delle canzoni
                             putBandNewData($randomIdBand, $newBand);
                         }else{
+                            //sta cazzo di assegnazione non funziona e non so perché
                             $canzone["idBand"] = $idB; //modifico il nuovo id al file delle canzoni
                             putBandNewData($idB, $newBand);
                         }
@@ -61,9 +64,12 @@
                             do{                                     //creazione di un nuovo id  tramite numero random
                                 $randomIdGenere = rand();
                             }while(existGenere($randomIdGenere)==true); // mi controlla che l'id non esista gia'
+
+                            //sta cazzo di assegnazione non funziona e non so perché
                             $canzone["idGenere"] = $idGen; //modifico il nuovo id al file delle canzoni
                             putGenereNewData($randomIdGenere, $newGenere);
                         }else{
+                            //sta cazzo di assegnazione non funziona e non so perché
                             $canzone["idGenere"] = $idGen; //modifico il nuovo id al file delle canzoni
                             putGenereNewData($idGen, $newGenere);
                         }
