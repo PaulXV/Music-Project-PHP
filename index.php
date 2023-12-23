@@ -20,14 +20,15 @@
       </thead>
       <tbody>
         <?php
+            include 'functions.php';
             $raw=file_get_contents('canzoni.json');
             $records=json_decode($raw);
             foreach($records as $record){
                 echo '<tr>';
                 $urlUpdate="update.php?idCanzone=".$record->idCanzone."&idBand=".$record->idBand."&idGenere=".$record->idGenere;
                 echo '<td><a href="'.$urlUpdate.'">'.$record->titolo.'</a></td>';
-                echo '<td><a href="'.$urlUpdate.'">'.getBand($record->idBand).'</a></td>';
-                echo '<td><a href="'.$urlUpdate.'">'.getGenere($record->idGenere).'</a></td>';
+                echo '<td><a href="'.$urlUpdate.'">'.getBandById($record->idBand).'</a></td>';
+                echo '<td><a href="'.$urlUpdate.'">'.getGenereById($record->idGenere).'</a></td>';
                 $urlDelete="delete.php?idCanzone=".$record->idCanzone."&idBand=".$record->idBand."&idGenere=".$record->idGenere;
                 echo '<td><a href="'.$urlDelete.'"><i class="bi bi-trash-fill"></i></a></td>';
                 echo '</tr>';
@@ -41,26 +42,3 @@
 </html>
 
 <?php
-function getBand($band){
-    $raw=file_get_contents('band.json');
-    $records=json_decode($raw);
-    $nome = "";
-    foreach($records as $record){
-        if($band == $record->idBand) {
-            $nome = $record->nomeBand;
-        }
-    }
-    return $nome;
-}
-
-function getGenere($genere){
-    $raw=file_get_contents('genere.json');
-    $records=json_decode($raw);
-    $gen = "";
-    foreach($records as $record){
-        if($genere == $record->idGenere){
-            $gen = $record->nomeGenere;
-        }
-    }
-    return $gen;
-}
