@@ -38,11 +38,11 @@
 
                             //sta cazzo di assegnazione non funziona e non so perché
                             $canzone["idBand"] = $idB; //modifico il nuovo id al file delle canzoni
-                            putBandNewData($randomIdBand, $newBand);
+                            putBandNewData($randomIdBand, $newBand, $recordsBand);
                         }else{
                             //sta cazzo di assegnazione non funziona e non so perché
                             $canzone["idBand"] = $idB; //modifico il nuovo id al file delle canzoni
-                            putBandNewData($idB, $newBand);
+                            putBandNewData($idB, $newBand, $recordsBand);
                         }
                         break;
                     }
@@ -67,11 +67,11 @@
 
                             //sta cazzo di assegnazione non funziona e non so perché
                             $canzone["idGenere"] = $idGen; //modifico il nuovo id al file delle canzoni
-                            putGenereNewData($randomIdGenere, $newGenere);
+                            putGenereNewData($randomIdGenere, $newGenere, $recordsGeneri);
                         }else{
                             //sta cazzo di assegnazione non funziona e non so perché
                             $canzone["idGenere"] = $idGen; //modifico il nuovo id al file delle canzoni
-                            putGenereNewData($idGen, $newGenere);
+                            putGenereNewData($idGen, $newGenere,$recordsGeneri);
                         }
                         break;
                     }
@@ -83,7 +83,7 @@
     $rawCanzoni=json_encode($recordsCanzoni);
     file_put_contents('canzoni.json', $rawCanzoni);
 
-    header('Location: index.php');
+    //header('Location: index.php');
 ?>
 
 <!-- funzioni -->
@@ -130,28 +130,18 @@ function getGenere($genere, $recordsGenere){
     return $id;
 }
 
-function putBandNewData($id, $artist){
+function putBandNewData($id, $artist, $recordsBand){
     //aggiunta della nuova band al file con il nuovo id e il nuovo nome
-    $file = fopen('band.json', 'r');
-    $contents = fread($file, filesize('band.json'));
-    $addTo = substr($contents, 0, -1).',{"idBand":"'.$id.'", "nomeBand":"'.$artist.'"}]';
-    fclose($file);
-
-    $file = fopen('band.json', 'w');
-    fwrite($file, $addTo);
-    fclose($file);
+    $recordsBand[]=['idBand'=> "<?php $id", 'nomeBand'=>$artist];
+    $raw=json_encode($recordsBand);
+    file_put_contents('band.json',$raw);
 }
 
-function putGenereNewData($id, $genere){
+function putGenereNewData($id, $genere, $recordsGeneri){
     //aggiunta del nuovo genere al file con il nuovo id e il nuovo nome
-    $file = fopen('genere.json', 'r');
-    $content = fread($file, filesize('genere.json'));
-    $addTo = substr($content, 0, -1).',{"idGenere":"'.$id.'", "nomeGenere":"'.$genere.'"}]';
-    fclose($file);
-
-    $file = fopen('genere.json', 'w');
-    fwrite($file, $addTo);
-    fclose($file);
+    $recordsGeneri[]=['idGenere'=> "<?php $id", 'nomeGenere'=>$genere];
+    $raw=json_encode($recordsGeneri);
+    file_put_contents('genere.json',$raw);
 }
 
 ?>
