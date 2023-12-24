@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="it">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My videos</title>
+    <title>My song</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   </head>
@@ -11,49 +11,50 @@
     <div class="container">
 
     <?php
+        include 'functions.php';
         $idCanzone=$_GET['idCanzone'];
-        $rawCanzoni=file_get_contents('canzoni.json');
-        $recordsCanzoni=json_decode($rawCanzoni,true);
+        $recordsCanzoni=getRecordsCanzoniAssociative();
 
         $idBand=$_GET['idBand'];
-        $rawBand=file_get_contents('band.json');
-        $recordsBand=json_decode($rawBand,true);
+        $recordsBand=getRecordsBandAssociative();
 
         $idGenere=$_GET['idGenere'];
-        $rawGeneri=file_get_contents('genere.json');
-        $recordsGeneri=json_decode($rawGeneri,true);
+        $recordsGeneri=getRecordsGeneriAssociative();
 
         $title="";
-        $nomeBand="";
-        $nomeGenere="";
-
         foreach($recordsCanzoni as $record){
           if($record['idCanzone']==$idCanzone){
               $title=$record['titolo'];
-              foreach($recordsBand as $record2){
-                  if ($record2['idBand']==$idBand){
-                      $nomeBand=$record2['nomeBand'];
-                  }
-              }
-              foreach($recordsGeneri as $record2){
-                  if ($record2['idGenere']==$idGenere){
-                      $nomeGenere=$record2['nomeGenere'];
-                  }
-              }
           }
         }
     ?>
 
 
-<form action="update-save.php">
+<form action="update-save.php" method="get">
 
   <input type="hidden" id="idCanzone" name=idCanzone value='<?php echo $idCanzone; ?>'>
   <label for="title">Titolo</label>
     <input type="text" id="title" name=title value="<?php echo $title; ?>" required><br>
-  <label for="band">Nome Band</label>
-    <input type="text" id="band" name=band value="<?php echo $nomeBand; ?>" required><br>
-    <label for="genere">Nome Genere</label>
-    <input type="text" id="genere" name=genere value="<?php echo $nomeGenere; ?>" required><br>
+
+    <label for="band">Nome artista: </label>
+    <select name="band" id="band">
+        <?php
+        foreach ($recordsBand as $band){
+            echo '<option value="'.$band["nomeBand"].'">'.$band["nomeBand"].'</option>';
+        }
+        ?>
+    </select>
+    <br>
+    <label for="genere">Seleziona uno o più generi:</label><br>
+    <?php
+    $cnt=0;
+    foreach ($recordsGeneri as $genere){
+        echo '<input type="checkbox" id="'.$genere["idGenere"].'" name="genere'.$cnt.'" value="'.$genere["nomeGenere"].'"></option>';
+        echo '<label for="'.$genere["nomeGenere"].'">'.$genere["nomeGenere"].'</label><br>';
+        $cnt++;
+    }
+    echo '<input type="hidden" id="numGeneri" name="numGeneri" value="'.$cnt.'"/><br>';
+    ?>
   <input type="submit" value="Salva"/>
 </form>
 

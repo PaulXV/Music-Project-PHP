@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My videos</title>
+    <title>My songs - brani</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   </head>
@@ -21,15 +21,14 @@
       <tbody>
         <?php
             include 'functions.php';
-            $raw=file_get_contents('canzoni.json');
-            $records=json_decode($raw);
+            $records=getRecordsCanzoni();
             foreach($records as $record){
                 echo '<tr>';
                 $urlUpdate="update.php?idCanzone=".$record->idCanzone."&idBand=".$record->idBand."&idGenere=".$record->idGenere;
+                $urlDelete="delete.php?idCanzone=".$record->idCanzone."&idBand=".$record->idBand."&idGenere=".$record->idGenere;
                 echo '<td><a href="'.$urlUpdate.'">'.$record->titolo.'</a></td>';
                 echo '<td><a href="'.$urlUpdate.'">'.getBandById($record->idBand).'</a></td>';
                 echo '<td><a href="'.$urlUpdate.'">'.getGenereById($record->idGenere).'</a></td>';
-                $urlDelete="delete.php?idCanzone=".$record->idCanzone."&idBand=".$record->idBand."&idGenere=".$record->idGenere;
                 echo '<td><a href="'.$urlDelete.'"><i class="bi bi-trash-fill"></i></a></td>';
                 echo '</tr>';
             }

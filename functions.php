@@ -1,7 +1,50 @@
 <?php
-function existBand($band){
+
+function setRecordsCanzoni($recordsCanzoni){
+    $rawCanzoni=json_encode($recordsCanzoni);
+    file_put_contents('canzoni.json', $rawCanzoni);
+}
+
+function getRecordsCanzoniAssociative(){
+    $raw=file_get_contents('canzoni.json');
+    return json_decode($raw, true);
+}
+
+function getRecordsCanzoni(){
+    $raw=file_get_contents('canzoni.json');
+    return json_decode($raw);
+}
+
+function getRecordsBandAssociative(){
     $raw=file_get_contents('band.json');
-    $records=json_decode($raw);
+    return json_decode($raw, true);
+}
+
+function getRecordsBand(){
+    $raw=file_get_contents('band.json');
+    return json_decode($raw);
+}
+
+function getRecordsGeneriAssociative(){
+    $raw=file_get_contents('genere.json');
+    return json_decode($raw, true);
+}
+
+function getRecordsGeneri(){
+    $raw=file_get_contents('genere.json');
+    return json_decode($raw);
+}
+function existSong($song){
+    $records=getRecordsCanzoni();
+    foreach($records as $record){
+        if($song == $record->idCanzone) {
+            return true;
+        }
+    }
+    return false;
+}
+function existBand($band){
+    $records=getRecordsBand();
     foreach($records as $record){
         if($band == $record->idBand) {
             return true;
@@ -36,13 +79,17 @@ function getBandById($band){
 function getGenereById($genere){
     $raw=file_get_contents('genere.json');
     $records=json_decode($raw);
+    $genere = explode("-", $genere);
     $gen = "";
     foreach($records as $record){
-        if($genere == $record->idGenere){
-            $gen = $record->nomeGenere;
+        foreach ($genere as $rec2){
+            if($rec2 == $record->idGenere){
+                $gen = $gen.($record->nomeGenere).", ";
+            }
         }
+
     }
-    return $gen;
+    return substr($gen, 0, -2);
 }
 
 function getBandByName($band){
@@ -81,4 +128,23 @@ function putGenereNewData($id, $genere, $recordsGeneri){
     $recordsGeneri[]=['idGenere'=> "<?php $id", 'nomeGenere'=>$genere];
     $raw=json_encode($recordsGeneri);
     file_put_contents('genere.json',$raw);
+}
+
+function getAllGeneri($canzone){
+    $allGen = explode("-", $canzone);
+    $arrayGeneri = array();
+    foreach ($allGen as $idSingolo){
+        $arrayGeneri[] = $idSingolo;
+    }
+    return $arrayGeneri;
+}
+
+function checkIfHasGenere($arrayGeneri, $genere){
+    $numGeneri = count($arrayGeneri);
+    $hasGen = 0;
+    foreach ($arrayGeneri as $gen){
+        if($gen == $genere)
+            $hasGen ++;
+    }
+    return ($numGeneri==$hasGen);
 }
