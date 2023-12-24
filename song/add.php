@@ -1,7 +1,7 @@
 <?php
-    include 'functions.php';
+    include '../functions.php';
     $idCanzone="";
-    do{                                     //creazione di un nuovo id  tramite numero random
+    do{                                     //creazione di un nuovo id tramite numero random
         $idCanzone = rand();
     }while(existSong($idCanzone)==true); // mi controlla che l'id non esista gia'
     $recordsBand=getRecordsBandAssociative();

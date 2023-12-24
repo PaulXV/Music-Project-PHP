@@ -11,7 +11,7 @@
     <div class="container">
 
     <?php
-        include 'functions.php';
+        include '../functions.php';
         $idCanzone=$_GET['idCanzone'];
         $recordsCanzoni=getRecordsCanzoniAssociative();
 
@@ -32,28 +32,32 @@
 
 <form action="update-save.php" method="get">
 
-  <input type="hidden" id="idCanzone" name=idCanzone value='<?php echo $idCanzone; ?>'>
-  <label for="title">Titolo</label>
-    <input type="text" id="title" name=title value="<?php echo $title; ?>" required><br>
+    <?php
+        echo '<input type="hidden" id="idCanzone" name=idCanzone value='.$idCanzone.'></option>';
+    ?>
+
+    <label for="title">Titolo</label>
+    <?php
+        echo '<input type="text" id="title" name=title value="'.$title.'" required><br>';
+    ?>
 
     <label for="band">Nome artista: </label>
     <select name="band" id="band">
-        <?php
+    <?php
         foreach ($recordsBand as $band){
             echo '<option value="'.$band["nomeBand"].'">'.$band["nomeBand"].'</option>';
         }
-        ?>
+    ?>
     </select>
     <br>
     <label for="genere">Seleziona uno o più generi:</label><br>
     <?php
-    $cnt=0;
-    foreach ($recordsGeneri as $genere){
-        echo '<input type="checkbox" id="'.$genere["idGenere"].'" name="genere'.$cnt.'" value="'.$genere["nomeGenere"].'"></option>';
-        echo '<label for="'.$genere["nomeGenere"].'">'.$genere["nomeGenere"].'</label><br>';
-        $cnt++;
-    }
-    echo '<input type="hidden" id="numGeneri" name="numGeneri" value="'.$cnt.'"/><br>';
+        $cnt=0;
+        foreach ($recordsGeneri as $genere){
+            echo '<input type="checkbox" id="'.$genere["idGenere"].'" name="genere'.$cnt.'" value="'.$genere["nomeGenere"].'"></option>';
+            echo '<label for="'.$genere["nomeGenere"].'">'.$genere["nomeGenere"].'</label><br>';
+            $cnt++;
+        }
     ?>
   <input type="submit" value="Salva"/>
 </form>

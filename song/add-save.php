@@ -1,5 +1,5 @@
 <?php
-include 'functions.php';
+include '../functions.php';
 
 $idCanzone = $_GET["idCanzone"];
 $newTitle = $_GET["title"]; //avrai il titolo della nuova canzone
@@ -18,4 +18,4 @@ $recordsCanzoni=getRecordsCanzoniAssociative();
 $recordsCanzoni[] = ["idCanzone"=>$idCanzone, "titolo"=>$newTitle, "idBand"=>$newBand, "idGenere"=> $idGeneriDaInserire];
 setRecordsCanzoni($recordsCanzoni);
 
-header('Location: index.php');
+header('Location: ../index.php');

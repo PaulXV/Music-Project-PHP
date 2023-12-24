@@ -6,7 +6,7 @@ function setRecordsCanzoni($recordsCanzoni){
 }
 
 function getRecordsCanzoniAssociative(){
-    $raw=file_get_contents('canzoni.json');
+    $raw=file_get_contents('../canzoni.json');
     return json_decode($raw, true);
 }
 
@@ -16,7 +16,7 @@ function getRecordsCanzoni(){
 }
 
 function getRecordsBandAssociative(){
-    $raw=file_get_contents('band.json');
+    $raw=file_get_contents('../band.json');
     return json_decode($raw, true);
 }
 
@@ -26,7 +26,7 @@ function getRecordsBand(){
 }
 
 function getRecordsGeneriAssociative(){
-    $raw=file_get_contents('genere.json');
+    $raw=file_get_contents('../genere.json');
     return json_decode($raw, true);
 }
 
@@ -105,7 +105,7 @@ function getBandByName($band){
 }
 
 function getGenereByName($genere){
-    $raw=file_get_contents('genere.json');
+    $raw=file_get_contents('../genere.json');
     $records=json_decode($raw, true);
     $id = "";
     foreach($records as $record){

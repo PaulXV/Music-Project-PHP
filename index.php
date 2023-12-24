@@ -24,8 +24,8 @@
             $records=getRecordsCanzoni();
             foreach($records as $record){
                 echo '<tr>';
-                $urlUpdate="update.php?idCanzone=".$record->idCanzone."&idBand=".$record->idBand."&idGenere=".$record->idGenere;
-                $urlDelete="delete.php?idCanzone=".$record->idCanzone."&idBand=".$record->idBand."&idGenere=".$record->idGenere;
+                $urlUpdate="song/update.php?idCanzone=".$record->idCanzone."&idBand=".$record->idBand."&idGenere=".$record->idGenere;
+                $urlDelete="song/delete.php?idCanzone=".$record->idCanzone."&idBand=".$record->idBand."&idGenere=".$record->idGenere;
                 echo '<td><a href="'.$urlUpdate.'">'.$record->titolo.'</a></td>';
                 echo '<td><a href="'.$urlUpdate.'">'.getBandById($record->idBand).'</a></td>';
                 echo '<td><a href="'.$urlUpdate.'">'.getGenereById($record->idGenere).'</a></td>';
@@ -34,10 +34,8 @@
             }
         ?>
     </table>
-    <a href="add.php" class="btn btn-success">Aggiungi una nuova canzone</a>
+    <a href="song/add.php" class="btn btn-success">Aggiungi una nuova canzone</a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
 </html>
-
-<?php
