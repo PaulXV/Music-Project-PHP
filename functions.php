@@ -93,7 +93,7 @@ function getGenereById($genere){
 }
 
 function getBandByName($band){
-    $raw=file_get_contents('band.json');
+    $raw=file_get_contents('../band.json');
     $records=json_decode($raw, true);
     $id = "";
     foreach($records as $record){
