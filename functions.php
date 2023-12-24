@@ -1,10 +1,5 @@
 <?php
 
-function setRecordsCanzoni($recordsCanzoni){
-    $rawCanzoni=json_encode($recordsCanzoni);
-    file_put_contents('canzoni.json', $rawCanzoni);
-}
-
 function getRecordsCanzoniAssociative(){
     $raw=file_get_contents('../canzoni.json');
     return json_decode($raw, true);
@@ -30,10 +25,6 @@ function getRecordsGeneriAssociative(){
     return json_decode($raw, true);
 }
 
-function getRecordsGeneri(){
-    $raw=file_get_contents('genere.json');
-    return json_decode($raw);
-}
 function existSong($song){
     $records=getRecordsCanzoni();
     foreach($records as $record){

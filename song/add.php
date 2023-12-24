@@ -39,11 +39,10 @@
             <?php
                 $cnt=0;
                 foreach ($recordsGeneri as $genere){
-                    echo '<input type="checkbox" id="'.$genere["idGenere"].'" name="genere'.$cnt.'" value="'.$genere["idGenere"].'"></option>';
-                    echo '<label for="'.$genere["nomeGenere"].'">'.$genere["nomeGenere"].'</label><br>';
+                    echo '<input type="checkbox" id="'.$genere["idGenere"].'" name="genere'.$cnt.'" value="'.$genere["nomeGenere"].'"></option>';
+                    echo '<label for="genere'.$cnt.'">'.$genere["nomeGenere"].'</label><br>';
                     $cnt++;
                 }
-                echo '<input type="hidden" id="numGeneri" name="numGeneri" value="'.$cnt.'"/><br>';
             ?>
 
             <input type="submit" value="Salva"/>
