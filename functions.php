@@ -20,6 +20,11 @@ function getRecordsBand(){
     return json_decode($raw);
 }
 
+function getRecordsGeneri(){
+    $raw=file_get_contents('../genere.json');
+    return json_decode($raw);
+}
+
 function getRecordsGeneriAssociative(){
     $raw=file_get_contents('../genere.json');
     return json_decode($raw, true);
@@ -45,7 +50,7 @@ function existBand($band){
 }
 
 function existGenere($genere){
-    $raw=file_get_contents('genere.json');
+    $raw=file_get_contents('../genere.json');
     $records=json_decode($raw);
     foreach($records as $record){
         if($genere == $record->idGenere){
@@ -107,13 +112,6 @@ function getGenereByName($genere){
     return $id;
 }
 
-function putBandNewData($id, $artist, $recordsBand){
-    //aggiunta della nuova band al file con il nuovo id e il nuovo nome
-    $recordsBand[]=['idBand'=> "<?php $id", 'nomeBand'=>$artist];
-    $raw=json_encode($recordsBand);
-    file_put_contents('band.json',$raw);
-}
-
 function putGenereNewData($id, $genere, $recordsGeneri){
     //aggiunta del nuovo genere al file con il nuovo id e il nuovo nome
     $recordsGeneri[]=['idGenere'=> "<?php $id", 'nomeGenere'=>$genere];
@@ -145,6 +143,16 @@ function getNumeroBrani($idBand){
     $cntCanzoni = 0;
     foreach ($canzoni as $canzone){
         if($canzone["idBand"] == $idBand)
+            $cntCanzoni++;
+    }
+    return $cntCanzoni;
+}
+
+function getNumeroGeneri($idGenere){
+    $canzoni = getRecordsCanzoniAssociative();
+    $cntCanzoni = 0;
+    foreach ($canzoni as $canzone){
+        if($canzone["idGenere"] == $idGenere)
             $cntCanzoni++;
     }
     return $cntCanzoni;

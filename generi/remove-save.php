@@ -1,10 +1,10 @@
 <?php
 include '../functions.php';
-$idGenere = $_GET["genere"];
+$idGenere = $_GET["idGenere"];
 $recordsGenere = getRecordsGeneriAssociative();
 $newRecords = [];
 foreach ($recordsGenere as $genere){
-    if($genere["idBand"]!= $idGenere){
+    if($genere["idGenere"] != $idGenere){
         $newRecords[] = $genere;
     }
 }
