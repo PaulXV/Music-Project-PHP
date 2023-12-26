@@ -16,7 +16,7 @@ function getRecordsBandAssociative(){
 }
 
 function getRecordsBand(){
-    $raw=file_get_contents('band.json');
+    $raw=file_get_contents('../band.json');
     return json_decode($raw);
 }
 
@@ -138,4 +138,14 @@ function checkIfHasGenere($arrayGeneri, $genere){
             $hasGen ++;
     }
     return ($numGeneri==$hasGen);
+}
+
+function getNumeroBrani($idBand){
+    $canzoni = getRecordsCanzoniAssociative();
+    $cntCanzoni = 0;
+    foreach ($canzoni as $canzone){
+        if($canzone["idBand"] == $idBand)
+            $cntCanzoni++;
+    }
+    return $cntCanzoni;
 }

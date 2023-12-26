@@ -1,13 +1,13 @@
 <?php
 include '../functions.php';
 $idBand = $_GET["idBand"];
-$recordsBand = getRecordsBandAssociative();
-$newRecords = [];
+$nomeBand = $_GET["nomeBand"];
+$recordsBand = getRecordsBand();
 foreach ($recordsBand as $band){
-    if($band["idBand"] != $idBand){
-        $newRecords[] = $band;
+    if($band->idBand == $idBand){
+        $band->nomeBand = $nomeBand;
     }
 }
-$raw=json_encode($newRecords);
+$raw=json_encode($recordsBand);
 file_put_contents('../band.json', $raw);
 header('Location: artist.php');
