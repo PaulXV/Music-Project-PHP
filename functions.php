@@ -6,7 +6,7 @@ function getRecordsCanzoniAssociative(){
 }
 
 function getRecordsCanzoni(){
-    $raw=file_get_contents('canzoni.json');
+    $raw=file_get_contents('../canzoni.json');
     return json_decode($raw);
 }
 

@@ -6,8 +6,17 @@
     <title>My artists</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+<header id="headerTop">
+    <nav>
+        <a href="#"><img src="../651758.png" alt="" height="30" width="30"></a>
+        <a href="../index.php">Brani</a>
+        <a href="#">Artisti o gruppi</a>
+        <a href="https://brugnola.bearzi.info/musica/generi/genere.php">Generi</a>
+    </nav>
+</header>
 <div class="container">
     <h1>Artisti o gruppi</h1>
     <table class="table table-striped">
